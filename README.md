@@ -4,7 +4,12 @@ A simple Hello World Node.js app deployed with Kubernetes.
 
 ## Getting started
 
-### Kubernetes
+### Prerequisites
+
+1. [minikube](https://minikube.sigs.k8s.io/docs/)
+2. [kubectl](https://kubernetes.io/docs/reference/kubectl/)
+
+### Setup
 
 1. Start minikube
 
@@ -24,13 +29,15 @@ eval $(minikube docker-env)
 docker build -t node-app .
 ```
 
-4. Create deployment
+### Start deployment
+
+1. Create deployment
 
 ```sh
 kubectl apply -f deployments/deployment.yaml
 ```
 
-5. Verify that two replica pods have been created
+2. Verify that two replica pods have been created
 
 ```sh
 kubectl get pod
@@ -42,22 +49,31 @@ kubectl get pod
 # node-app-deployment-799f65478b-j4vwb   1/1     Running   0          7s
 ```
 
-### Docker image
+### Start service
 
-1. Build the Docker image
+1. Create service
 
 ```sh
-docker build -t node-app .
+kubectl apply -f deployments/service.yaml
 ```
 
-2. Run the Docker image
+2. Verify that service has been created
 
 ```sh
-docker run -d -p 3000:3000 node-app
+kubectl get service
+
+# should return something similar to:
+#
+# NAME               TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+# kubernetes         ClusterIP      <ip>           <none>        443/TCP          65m
+# node-app-service   LoadBalancer   <ip>           <pending>     3000:31000/TCP   33m
 ```
 
-3. Verify Docker container is running
+3. Test service
 
 ```sh
-curl http://localhost:3000 # returns "Hello world!"
+minikube service node-app-service --url
+
+# using a seperate terminal instance
+curl http://<external_service_ip>:31000 # returns "Hello world!"
 ```
