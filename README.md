@@ -12,23 +12,34 @@ A simple Hello World Node.js app deployed with Kubernetes.
 minikube start
 ```
 
-2. Create deployment
+2. Point shell to minikube's Docker daemon
+
+```sh
+eval $(minikube docker-env)
+```
+
+3. Build Docker image
+
+```sh
+docker build -t node-app .
+```
+
+4. Create deployment
 
 ```sh
 kubectl apply -f deployments/deployment.yaml
 ```
 
-3. Verify that two replica pods have been created
+5. Verify that two replica pods have been created
 
 ```sh
 kubectl get pod
 
 # should return something similar to:
-: '
-NAME                                   READY   STATUS              RESTARTS   AGE
-node-app-deployment-68f6d975d5-n303d   0/1     ContainerCreating   0          5s
-node-app-deployment-68f6d975d5-w984a   0/1     ContainerCreating   0          5s
-'
+#
+# NAME                                   READY   STATUS    RESTARTS   AGE
+# node-app-deployment-799f65478b-9drrm   1/1     Running   0          7s
+# node-app-deployment-799f65478b-j4vwb   1/1     Running   0          7s
 ```
 
 ### Docker image
