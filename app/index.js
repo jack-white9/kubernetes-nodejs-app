@@ -2,7 +2,7 @@ const express = require("express");
 
 const app = express();
 
-const NOUN = process.env.NOUN; // || "world";
+const NOUN = process.env.NOUN || "world";
 
 app.get("/", (req, res) => {
   res.json(`Hello ${NOUN}!`);

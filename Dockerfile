@@ -6,6 +6,6 @@ COPY package*.json .
 
 RUN npm i
 
-COPY index.js .
+COPY app/index.js .
 
 CMD ["npm", "start"]
