@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: node-app-deployment
+
+spec:
+  # manage pods matching label "node-app"
+  selector:
+    matchLabels:
+      app: node-app
+
+  # deploy 2 identical pods
+  replicas: 2
+
+  # define pod template
+  template:
+    # apply "node-app" label to pod
+    metadata:
+      labels:
+        app: node-app
+
+    # define container config to run in pods
+    spec:
+      containers:
+        - name: node-app
+          image: node-app
+          ports:
+            - containerPort: 3000
+
